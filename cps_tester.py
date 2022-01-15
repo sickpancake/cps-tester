@@ -15,12 +15,13 @@ class Window(Frame):
 
         self.clicking_button = Button(
             self, text="click", command=self.start_test)
-        self.clicking_button.place(x=220, y=200)
+        self.clicking_button.place(x=125, y=200)
+        self.clicking_button.configure(width=30, height=10)
 
     def start_test(self):
         self.clicking_button.configure(state="disabled")
         self.clicking_button.pack()
-        self.clicking_button.place(x=220, y=200)
+        self.clicking_button.place(x=125, y=200)
         self.wait_5_sec()
         self.clicking_button.configure(state="active")
 
