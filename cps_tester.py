@@ -34,6 +34,8 @@ class Window(Frame):
     def reset_score(self):
         self.score = int(self.score) + 1
         print("you got " + str(self.score) + " clicks per 5 second")
+        cps = self.score//5
+        print("with a cps of " + str(cps) + "!")
         self.score = 0
         self.first_time = True
     
