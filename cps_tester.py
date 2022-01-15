@@ -34,11 +34,21 @@ class Window(Frame):
     
     def reset_score(self):
         self.score = int(self.score) + 1
-        print("you got " + str(self.score) + " clicks per 5 second")
+        self.score_window = Toplevel()
+        self.clicking_button.configure(state="disabled")
+        self.ok_button = Button(self.score_window, text="ok", command=self.close_second_window)
+        self.ok_button.place(x=75, y=100)
+        score_label = Label(self.score_window, text="you got " + str(self.score))
+        score_label.place(x=35, y=25)
         cps = self.score//5
-        print("with a cps of " + str(cps) + "!")
+        cps_label = Label(self.score_window, text="with a cps of " + str(cps) + "!")
+        cps_label.place(x=35, y=45)
         self.score = 0
         self.first_time = True
+
+    def close_second_window(self):
+        self.score_window.destroy()
+        self.clicking_button.configure(state="active")
     
     def exit_tester(self):
         exit()
