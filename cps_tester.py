@@ -8,6 +8,9 @@ class Window(Frame):
         self.score = "0"
         self.first_time = True
 
+        self.remaining = 0
+        self.countdown(10)
+
         self.pack(fill=BOTH, expand=1)
 
         self.exit_button = Button(self, text="exit", command=self.exit_tester)
@@ -18,6 +21,9 @@ class Window(Frame):
         self.clicking_button.place(x=125, y=200)
         self.clicking_button.configure(width=30, height=10)
 
+        self.timer = Label(self, text="")
+        self.timer.place(x=225, y=25)
+
     def start_test(self):
         self.clicking_button.configure(state="disabled")
         self.clicking_button.pack()
@@ -25,6 +31,17 @@ class Window(Frame):
         self.wait_5_sec()
         self.clicking_button.configure(state="active")
 
+    def countdown(self, remaining = None):
+        if remaining is not None:
+            self.remaining = remaining
+
+        if self.remaining <= 0:
+            self.timer.configure(text="0 seconds")
+        else:
+            self.timer.configure(text="%d seconds" % self.remaining)
+            self.remaining = self.remaining - 1
+            self.after(1000, self.countdown)
+    
     def wait_5_sec(self):
         if self.first_time is True:
             self.first_time = False
