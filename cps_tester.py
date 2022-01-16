@@ -9,7 +9,6 @@ class Window(Frame):
         self.first_time = True
 
         self.remaining = 0
-        self.countdown(10)
 
         self.pack(fill=BOTH, expand=1)
 
@@ -21,7 +20,7 @@ class Window(Frame):
         self.clicking_button.place(x=125, y=200)
         self.clicking_button.configure(width=30, height=10)
 
-        self.timer = Label(self, text="")
+        self.timer = Label(self, text="0 seconds")
         self.timer.place(x=225, y=25)
 
     def start_test(self):
@@ -45,7 +44,8 @@ class Window(Frame):
     def wait_5_sec(self):
         if self.first_time is True:
             self.first_time = False
-            self.clicking_button.after(5000, self.reset_score)
+            self.after(5000, self.reset_score)
+            self.countdown(5)
         else:
             self.score = int(self.score) + 1
     
