@@ -50,6 +50,11 @@ class Window(Frame):
             self.score = int(self.score) + 1
     
     def reset_score(self):
+        self.create_score_window()
+        self.score = 0
+        self.first_time = True
+
+    def create_score_window(self):
         self.score = int(self.score) + 1
         self.score_window = Toplevel()
         self.clicking_button.configure(state="disabled")
@@ -60,8 +65,6 @@ class Window(Frame):
         cps = self.score//5
         cps_label = Label(self.score_window, text="with a cps of " + str(cps) + "!")
         cps_label.place(x=35, y=45)
-        self.score = 0
-        self.first_time = True
 
     def close_second_window(self):
         self.score_window.destroy()
