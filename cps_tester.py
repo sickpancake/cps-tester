@@ -1,10 +1,11 @@
 from tkinter import *
 
+
 class Window(Frame):
     def __init__(self, master=None):
         Frame.__init__(self, master)
         self.master = master
-        
+
         self.score = "0"
         self.first_time = True
 
@@ -30,7 +31,7 @@ class Window(Frame):
         self.wait_5_sec()
         self.clicking_button.configure(state="active")
 
-    def countdown(self, remaining = None):
+    def countdown(self, remaining=None):
         if remaining is not None:
             self.remaining = remaining
 
@@ -40,7 +41,7 @@ class Window(Frame):
             self.timer.configure(text="%d seconds" % self.remaining)
             self.remaining = self.remaining - 1
             self.after(1000, self.countdown)
-    
+
     def wait_5_sec(self):
         if self.first_time is True:
             self.first_time = False
@@ -48,25 +49,65 @@ class Window(Frame):
             self.countdown(5)
         else:
             self.score = int(self.score) + 1
-    
+
     def reset_score(self):
+        self.create_score_window()
+        self.score = 0
+        self.first_time = True
+
+    def create_score_window(self):
         self.score = int(self.score) + 1
         self.score_window = Toplevel()
         self.clicking_button.configure(state="disabled")
-        self.ok_button = Button(self.score_window, text="ok", command=self.close_second_window)
+        self.ok_button = Button(
+            self.score_window, text="ok", command=self.close_second_window)
         self.ok_button.place(x=75, y=100)
-        score_label = Label(self.score_window, text="you got " + str(self.score))
+        score_label = Label(self.score_window,
+                            text="you got " + str(self.score))
         score_label.place(x=35, y=25)
-        cps = self.score//5
-        cps_label = Label(self.score_window, text="with a cps of " + str(cps) + "!")
+        self.cps = self.score//5
+        cps_label = Label(self.score_window,
+                          text="with a cps of " + str(self.cps) + "!")
         cps_label.place(x=35, y=45)
-        self.score = 0
-        self.first_time = True
+        ranking_label = Label(
+            self.score_window, text="ranking: " + self.get_ranking())
+        ranking_label.place(x=35, y=65)
+
+    def get_ranking(self):
+        if self.cps == 4 or self.cps < 4:
+            return "noob"
+
+        if self.cps == 5 or self.cps == 6:
+            return "normal"
+
+        if self.cps == 7 or self.cps == 8:
+            return "rookie"
+
+        if self.cps == 9 or self.cps == 10:
+            return "iron"
+
+        if self.cps == 11 or self.cps == 12:
+            return "gold"
+
+        if self.cps == 13 or self.cps == 14:
+            return "diamond"
+
+        if self.cps == 15 or self.cps == 16:
+            return "master"
+
+        if self.cps == 17 or self.cps == 18:
+            return "legend"
+
+        if self.cps == 19 or self.cps == 20:
+            return "grandmaster"
+
+        if self.cps == 21 or self.cps > 21:
+            return "godlike"
 
     def close_second_window(self):
         self.score_window.destroy()
         self.clicking_button.configure(state="active")
-    
+
     def exit_tester(self):
         exit()
 
