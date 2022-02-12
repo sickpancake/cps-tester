@@ -6,6 +6,7 @@ import sqlite3
 
 class Window(Frame):
     """setup for the window"""
+
     def __init__(self, master=None):
         Frame.__init__(self, master)
         self.master = master
@@ -66,6 +67,7 @@ class Window(Frame):
         self.clicking_button.configure(state="active")
 
     def countdown(self, remaining=None):
+        """create a countdown"""
         if remaining is not None:
             self.remaining = remaining
 
@@ -85,7 +87,20 @@ class Window(Frame):
             self.score = int(self.score) + 1
 
     def reset_score(self):
+        """reset the score"""
         self.create_score_window()
+        highscore = self.cursor.execute("""select * from highscore""")
+        highscore = highscore.fetchall()[0][0]
+        if highscore < self.score:
+            self.cursor.execute(
+                """update highscore set highscore = :newhighscore where highscore = :currenthighscore""",
+                {
+                    "newhighscore": self.score,
+                    "currenthighscore": highscore
+                }
+            )
+            self.con.commit()
+
         self.score = 0
         self.first_time = True
 
