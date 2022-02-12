@@ -89,17 +89,19 @@ class Window(Frame):
     def reset_score(self):
         """reset the score"""
         self.create_score_window()
-        highscore = self.cursor.execute("""select * from highscore""")
-        highscore = highscore.fetchall()[0][0]
-        if highscore < self.score:
+        self.highscore = self.cursor.execute("""select * from highscore""")
+        self.highscore = self.highscore.fetchall()[0][0]
+        if self.highscore < self.score:
             self.cursor.execute(
                 """update highscore set highscore = :newhighscore where highscore = :currenthighscore""",
                 {
                     "newhighscore": self.score,
-                    "currenthighscore": highscore
+                    "currenthighscore": self.highscore
                 }
             )
             self.con.commit()
+            new_highscore = Label(self.score_window, text="new highscore!")
+            new_highscore.place(x=35, y=75)
 
         self.score = 0
         self.first_time = True
