@@ -101,7 +101,7 @@ class Window(Frame):
             )
             self.con.commit()
             new_highscore = Label(self.score_window, text="new highscore!")
-            new_highscore.place(x=35, y=75)
+            new_highscore.place(x=35, y=85)
 
         self.score = 0
         self.first_time = True
@@ -109,20 +109,21 @@ class Window(Frame):
     def create_score_window(self):
         self.score = int(self.score) + 1
         self.score_window = Toplevel()
+        self.score_window.geometry("250x200")
         self.clicking_button.configure(state="disabled")
         self.ok_button = Button(
             self.score_window, text="ok", command=self.close_second_window)
-        self.ok_button.place(x=75, y=100)
+        self.ok_button.place(x=110, y=120)
         score_label = Label(self.score_window,
-                            text="you got " + str(self.score))
-        score_label.place(x=35, y=25)
+                            text="you got " + str(self.score) + " clicks in 5 seconds")
+        score_label.place(x=40, y=25)
         self.cps = self.score//5
         cps_label = Label(self.score_window,
                           text="with a cps of " + str(self.cps) + "!")
-        cps_label.place(x=35, y=45)
+        cps_label.place(x=75, y=45)
         ranking_label = Label(
             self.score_window, text="ranking: " + self.get_ranking())
-        ranking_label.place(x=35, y=65)
+        ranking_label.place(x=75, y=65)
 
     def get_ranking(self):
         if self.cps == 4 or self.cps < 4:
