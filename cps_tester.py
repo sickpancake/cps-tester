@@ -31,8 +31,13 @@ class Window(Frame):
         self.timer = Label(self, text="0 seconds")
         self.timer.place(x=225, y=25)
 
+        self.current_highscore = self.cursor.execute("""select * from highscore""")
+        self.current_highscore = str(self.current_highscore.fetchall()[0][0])
+        self.highscore_label = Label(self, text="highscore: " + self.current_highscore + " clicks in 5 seconds")
+        self.highscore_label.place(x=280, y=475)
+
     def initialize(self):
-        """start the program"""
+        """start the sql"""
         self.dbpath = os.path.join(pathlib.Path.home(), "cpstester.db")
         self.con = sqlite3.connect(self.dbpath)
         self.cursor = self.con.cursor()
@@ -100,8 +105,9 @@ class Window(Frame):
                 }
             )
             self.con.commit()
+            self.highscore_label.configure(text="highscore: " + str(self.score) + " clicks in 5 seconds")
             new_highscore = Label(self.score_window, text="new highscore!")
-            new_highscore.place(x=35, y=85)
+            new_highscore.place(x=75, y=85)
 
         self.score = 0
         self.first_time = True
