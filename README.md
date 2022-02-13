@@ -3,6 +3,7 @@
 ## Prerequisites
 
 - Tkinter
+- sqlite3
 
 ## Usage
 
