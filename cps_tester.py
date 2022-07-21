@@ -94,6 +94,7 @@ class Window(Frame):
     def reset_score(self):
         """reset the score"""
         self.create_score_window()
+        self.score_window.overrideredirect(1)
         self.highscore = self.cursor.execute("""select * from highscore""")
         self.highscore = self.highscore.fetchall()[0][0]
         if self.highscore < self.score:
