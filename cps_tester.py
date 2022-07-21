@@ -1,10 +1,17 @@
+import os
+import pathlib
 from tkinter import *
+import sqlite3
 
 
 class Window(Frame):
+    """setup for the window"""
+
     def __init__(self, master=None):
         Frame.__init__(self, master)
         self.master = master
+
+        self.initialize()
 
         self.score = "0"
         self.first_time = True
@@ -24,7 +31,40 @@ class Window(Frame):
         self.timer = Label(self, text="0 seconds")
         self.timer.place(x=225, y=25)
 
+        self.current_highscore = self.cursor.execute("""select * from highscore""")
+        self.current_highscore = str(self.current_highscore.fetchall()[0][0])
+        self.highscore_label = Label(self, text="highscore: " + self.current_highscore + " clicks in 5 seconds")
+        self.highscore_label.place(x=280, y=475)
+
+    def initialize(self):
+        """start the sql"""
+        self.dbpath = os.path.join(pathlib.Path.home(), "cpstester.db")
+        self.con = sqlite3.connect(self.dbpath)
+        self.cursor = self.con.cursor()
+
+        self.cursor.execute("""
+        create table if not exists highscore([highscore] integer)
+        """)
+
+        length_of_highscore = self.cursor.execute(
+            """
+            select count (*) from highscore
+            """
+        )
+
+        length_of_highscore = length_of_highscore.fetchall()[0][0]
+
+        if length_of_highscore == 0:
+            self.cursor.execute(
+                """
+                insert into highscore (highscore) values (0);
+                """
+            )
+
+        self.con.commit()
+
     def start_test(self):
+        """start the test"""
         self.clicking_button.configure(state="disabled")
         self.clicking_button.pack()
         self.clicking_button.place(x=125, y=200)
@@ -32,6 +72,7 @@ class Window(Frame):
         self.clicking_button.configure(state="active")
 
     def countdown(self, remaining=None):
+        """create a countdown"""
         if remaining is not None:
             self.remaining = remaining
 
@@ -51,27 +92,44 @@ class Window(Frame):
             self.score = int(self.score) + 1
 
     def reset_score(self):
+        """reset the score"""
         self.create_score_window()
+        self.highscore = self.cursor.execute("""select * from highscore""")
+        self.highscore = self.highscore.fetchall()[0][0]
+        if self.highscore < self.score:
+            self.cursor.execute(
+                """update highscore set highscore = :newhighscore where highscore = :currenthighscore""",
+                {
+                    "newhighscore": self.score,
+                    "currenthighscore": self.highscore
+                }
+            )
+            self.con.commit()
+            self.highscore_label.configure(text="highscore: " + str(self.score) + " clicks in 5 seconds")
+            new_highscore = Label(self.score_window, text="new highscore!")
+            new_highscore.place(x=75, y=85)
+
         self.score = 0
         self.first_time = True
 
     def create_score_window(self):
         self.score = int(self.score) + 1
         self.score_window = Toplevel()
+        self.score_window.geometry("250x200")
         self.clicking_button.configure(state="disabled")
         self.ok_button = Button(
             self.score_window, text="ok", command=self.close_second_window)
-        self.ok_button.place(x=75, y=100)
+        self.ok_button.place(x=110, y=120)
         score_label = Label(self.score_window,
-                            text="you got " + str(self.score))
-        score_label.place(x=35, y=25)
+                            text="you got " + str(self.score) + " clicks in 5 seconds")
+        score_label.place(x=40, y=25)
         self.cps = self.score//5
         cps_label = Label(self.score_window,
                           text="with a cps of " + str(self.cps) + "!")
-        cps_label.place(x=35, y=45)
+        cps_label.place(x=75, y=45)
         ranking_label = Label(
             self.score_window, text="ranking: " + self.get_ranking())
-        ranking_label.place(x=35, y=65)
+        ranking_label.place(x=75, y=65)
 
     def get_ranking(self):
         if self.cps == 4 or self.cps < 4:
