@@ -14,7 +14,9 @@ class Window(Frame):
         self.initialize()
 
         self.score = "0"
+        self.cps = None
         self.first_time = True
+        self.score_window = None
 
         self.remaining = 0
 
@@ -31,10 +33,16 @@ class Window(Frame):
         self.timer = Label(self, text="0 seconds")
         self.timer.place(x=225, y=25)
 
-        self.current_highscore = self.cursor.execute("""select * from highscore""")
+        self.highscore = None
+        self.current_highscore = self.cursor.execute(
+            """select * from highscore""")
         self.current_highscore = str(self.current_highscore.fetchall()[0][0])
-        self.highscore_label = Label(self, text="highscore: " + self.current_highscore + " clicks in 5 seconds")
+        self.highscore_label = Label(
+            self, text="highscore: " + self.current_highscore +
+            " clicks in 5 seconds")
         self.highscore_label.place(x=280, y=475)
+
+        self.ok_button = None
 
     def initialize(self):
         """start the sql"""
@@ -79,11 +87,12 @@ class Window(Frame):
         if self.remaining <= 0:
             self.timer.configure(text="0 seconds")
         else:
-            self.timer.configure(text="%d seconds" % self.remaining)
+            self.timer.configure(text=str(self.remaining) + " seconds")
             self.remaining = self.remaining - 1
             self.after(1000, self.countdown)
 
     def wait_5_sec(self):
+        """create a timer for 5 seconds"""""
         if self.first_time is True:
             self.first_time = False
             self.after(5000, self.reset_score)
@@ -99,14 +108,16 @@ class Window(Frame):
         self.highscore = self.highscore.fetchall()[0][0]
         if self.highscore < self.score:
             self.cursor.execute(
-                """update highscore set highscore = :newhighscore where highscore = :currenthighscore""",
+                """update highscore set highscore = :newhighscore where
+                highscore = :currenthighscore""",
                 {
                     "newhighscore": self.score,
                     "currenthighscore": self.highscore
                 }
             )
             self.con.commit()
-            self.highscore_label.configure(text="highscore: " + str(self.score) + " clicks in 5 seconds")
+            self.highscore_label.configure(
+                text="highscore: " + str(self.score) + " clicks in 5 seconds")
             new_highscore = Label(self.score_window, text="new highscore!")
             new_highscore.place(x=75, y=85)
 
@@ -114,6 +125,7 @@ class Window(Frame):
         self.first_time = True
 
     def create_score_window(self):
+        """create the score window"""
         self.score = int(self.score) + 1
         self.score_window = Toplevel()
         self.score_window.geometry("250x200")
@@ -133,6 +145,7 @@ class Window(Frame):
         ranking_label.place(x=75, y=65)
 
     def get_ranking(self):
+        """get the ranking of from the cps"""
         if self.cps == 4 or self.cps < 4:
             return "noob"
 
@@ -164,10 +177,12 @@ class Window(Frame):
             return "godlike"
 
     def close_second_window(self):
+        """close the score window"""
         self.score_window.destroy()
         self.clicking_button.configure(state="active")
 
     def exit_tester(self):
+        """exit out of the cps tester and stop the program"""
         exit()
 
 
