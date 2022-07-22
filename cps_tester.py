@@ -3,7 +3,7 @@ this is a cps tester to track how fast you can click
 """
 import os
 import pathlib
-from tkinter import *
+from tkinter import Frame, BOTH, Button, Label, Toplevel, Tk
 import sqlite3
 
 
