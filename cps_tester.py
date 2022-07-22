@@ -1,3 +1,6 @@
+"""
+this is a cps tester to track how fast you can click
+"""
 import os
 import pathlib
 from tkinter import *
