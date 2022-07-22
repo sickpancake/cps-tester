@@ -57,6 +57,14 @@ class Window(Frame):
         create table if not exists highscore([highscore] integer)
         """)
 
+        self.cursor.execute("""
+        create table if not exists history(
+        [score] integer,
+        [cps] integer,
+        [date] string,
+        [time] string)
+        """)
+
         length_of_highscore = self.cursor.execute(
             """
             select count (*) from highscore
