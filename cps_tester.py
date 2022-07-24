@@ -5,6 +5,7 @@ import os
 import pathlib
 from tkinter import Frame, BOTH, Button, Label, Toplevel, Tk
 import sqlite3
+from datetime import datetime
 
 
 class Window(Frame):
@@ -160,12 +161,22 @@ class Window(Frame):
         ranking_label.place(x=75, y=65)
 
     def add_run(self):
+        date_and_time = datetime()
+        
         self.cursor.execute(
             """insert into history (score, cps, date, time)
             values :score, :cps, :date, :time""",
             {
                 "score": self.score,
                 "cps": self.cps,
+                "date":
+                str(date_and_time.year) + "-" +
+                str(date_and_time.month) + "-" +
+                str(date_and_time.day),
+                "time":
+                str(date_and_time.hour) + ":" +
+                str(date_and_time.minute) + ":" +
+                str(date_and_time.second)
             }
         )
 
