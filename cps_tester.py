@@ -120,6 +120,7 @@ class Window(Frame):
         self.score_window.overrideredirect(1)
         self.highscore = self.cursor.execute("""select * from highscore""")
         self.highscore = self.highscore.fetchall()[0][0]
+        self.add_run()
         if self.highscore < self.score:
             self.cursor.execute(
                 """update highscore set highscore = :newhighscore where
@@ -157,6 +158,21 @@ class Window(Frame):
         ranking_label = Label(
             self.score_window, text="ranking: " + self.get_ranking())
         ranking_label.place(x=75, y=65)
+
+    def add_run(self):
+        self.cursor.execute(
+            """insert into history (score, cps, date, time)
+            values :score, :cps, :date, :time""",
+            {
+                "score": self.score,
+                "cps": self.cps,
+            }
+        )
+
+    def create_history_window(self):
+        self.history_window = Toplevel()
+        self.history_window.geometry("350x200")
+
 
     def get_ranking(self):
         """get the ranking of from the cps"""
