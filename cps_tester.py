@@ -26,7 +26,7 @@ class Window(Frame):
 
         self.pack(fill=BOTH, expand=1)
 
-        self.history_button = Button(self, text="history")
+        self.history_button = Button(self, text="history", command=self.create_history_window)
         self.history_button.place(x=0, y=0)
 
         self.exit_button = Button(self, text="exit", command=self.exit_tester)
@@ -147,7 +147,7 @@ class Window(Frame):
         self.score_window.geometry("250x200")
         self.clicking_button.configure(state="disabled")
         self.ok_button = Button(
-            self.score_window, text="ok", command=self.close_second_window)
+            self.score_window, text="ok", command=self.close_score_window)
         self.ok_button.place(x=110, y=120)
         score_label = Label(self.score_window,
                             text="you got " + str(self.score) + " clicks in 5 seconds")
@@ -180,9 +180,14 @@ class Window(Frame):
             }
         )
 
+        self.con.commit()
+
     def create_history_window(self):
         self.history_window = Toplevel()
         self.history_window.geometry("350x200")
+
+        self.history_exit_button = Button(self.history_window, text="exit", command=self.exit_history_window)
+        self.history_exit_button.place("230x0")
 
 
     def get_ranking(self):
@@ -217,10 +222,13 @@ class Window(Frame):
         if self.cps == 21 or self.cps > 21:
             return "godlike"
 
-    def close_second_window(self):
+    def close_score_window(self):
         """close the score window"""
         self.score_window.destroy()
         self.clicking_button.configure(state="active")
+
+    def exit_history_window(self):
+        self.history_window.destroy()
 
     def exit_tester(self):
         """exit out of the cps tester and stop the program"""
