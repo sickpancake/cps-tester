@@ -3,6 +3,7 @@ this is a cps tester to track how fast you can click
 """
 import os
 import pathlib
+from textwrap import indent
 from tkinter import Frame, BOTH, Button, Label, Toplevel, Tk
 import sqlite3
 from datetime import datetime
@@ -187,6 +188,23 @@ class Window(Frame):
         self.history_exit_button = Button(self.history_window, text="exit", command=self.exit_history_window)
         self.history_exit_button.place(x=145, y=0)
 
+        self.latest_runs = []
+        for x in range(len(self.get_all_from_history())):
+            if x != 10 or len(self.get_all_from_history):
+                break
+
+            self.latest_runs.append(x)
+
+        for x in range(10 - len(self.get_all_from_history())):
+            self.latest_runs.append(None)
+
+        
+
+    def get_all_from_history(self):
+        return self.cursor.execute("""select * from history""").fetchall()
+
+    def create_ten_history_runs(self, runs):
+        pass
 
     def get_ranking(self):
         """get the ranking of from the cps"""
