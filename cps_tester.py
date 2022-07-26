@@ -6,8 +6,6 @@ import pathlib
 from tkinter import Frame, BOTH, Button, Label, Toplevel, Tk
 import sqlite3
 from datetime import datetime
-
-
 class Window(Frame):
     """setup for the window"""
 
@@ -161,11 +159,11 @@ class Window(Frame):
         ranking_label.place(x=75, y=65)
 
     def add_run(self):
-        date_and_time = datetime()
+        date_and_time = datetime.today()
         
         self.cursor.execute(
             """insert into history (score, cps, date, time)
-            values :score, :cps, :date, :time""",
+            values (:score, :cps, :date, :time)""",
             {
                 "score": self.score,
                 "cps": self.cps,
@@ -184,10 +182,10 @@ class Window(Frame):
 
     def create_history_window(self):
         self.history_window = Toplevel()
-        self.history_window.geometry("350x200")
+        self.history_window.geometry("200x350")
 
         self.history_exit_button = Button(self.history_window, text="exit", command=self.exit_history_window)
-        self.history_exit_button.place("230x0")
+        self.history_exit_button.place(x=145, y=0)
 
 
     def get_ranking(self):
