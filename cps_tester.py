@@ -183,20 +183,25 @@ class Window(Frame):
 
     def create_history_window(self):
         self.history_window = Toplevel()
-        self.history_window.geometry("200x350")
+        self.history_window.geometry("375x350")
 
+        self.history_label = Label(self.history_window, text="History")
+        self.history_label.place(x=150, y=5)
+        
         self.history_exit_button = Button(self.history_window, text="exit", command=self.exit_history_window)
-        self.history_exit_button.place(x=145, y=0)
+        self.history_exit_button.place(x=320, y=0)
 
         self.latest_runs = []
         for x in range(len(self.get_all_from_history())):
-            if x != 10 or len(self.get_all_from_history):
+            if x != 10 and x != len(self.get_all_from_history()) is True:
                 break
 
-            self.latest_runs.append(x)
+            self.latest_runs.append(self.get_all_from_history()[x-1])
 
         for x in range(10 - len(self.get_all_from_history())):
             self.latest_runs.append(None)
+
+        self.create_ten_history_runs(self.latest_runs)
 
         
 
@@ -204,7 +209,16 @@ class Window(Frame):
         return self.cursor.execute("""select * from history""").fetchall()
 
     def create_ten_history_runs(self, runs):
-        pass
+        if runs[0] != None:
+            self.run_one_label = Label(self.history_window, text=
+            "1: score: " + str(runs[0][0]) +
+            ", cps: " + str(runs[0][1]) +
+            ", date and time: " + runs[0][2] + " " + runs[0][3])
+
+        else:
+            self.run_one_label = Label(self.history_window, text="1: None")
+
+        self.run_one_label.place(x=10, y=30)
 
     def get_ranking(self):
         """get the ranking of from the cps"""
