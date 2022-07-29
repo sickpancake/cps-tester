@@ -191,6 +191,7 @@ class Window(Frame):
         self.history_exit_button = Button(self.history_window, text="exit", command=self.exit_history_window)
         self.history_exit_button.place(x=320, y=0)
 
+
         self.create_ten_history_runs(self.get_ten_latest_runs())
 
     def get_ten_latest_runs(self):
@@ -208,7 +209,9 @@ class Window(Frame):
 
 
     def get_all_from_history(self):
-        return self.cursor.execute("""select * from history""").fetchall()
+        return self.cursor.execute(
+            """select * from history"""
+        ).fetchall()
 
     def create_ten_history_runs(self, runs):
         if runs[0] != None:
