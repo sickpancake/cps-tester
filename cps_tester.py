@@ -28,6 +28,8 @@ class Window(Frame):
         self.history_button = Button(self, text="history", command=self.create_history_window)
         self.history_button.place(x=0, y=0)
 
+        self.history_window_open = False
+
         self.exit_button = Button(self, text="exit", command=self.exit_tester)
         self.exit_button.place(x=445, y=0)
 
@@ -121,6 +123,9 @@ class Window(Frame):
         self.highscore = self.cursor.execute("""select * from highscore""")
         self.highscore = self.highscore.fetchall()[0][0]
         self.add_run()
+        if self.history_window_open == True:
+            self.create_ten_history_runs(self.get_ten_latest_runs())
+
         if self.highscore < self.score:
             self.cursor.execute(
                 """update highscore set highscore = :newhighscore where
@@ -161,7 +166,7 @@ class Window(Frame):
 
     def add_run(self):
         date_and_time = datetime.today()
-        
+
         self.cursor.execute(
             """insert into history (score, cps, date, time)
             values (:score, :cps, :date, :time)""",
@@ -182,6 +187,8 @@ class Window(Frame):
         self.con.commit()
 
     def create_history_window(self):
+        self.history_window_open = True
+        
         self.history_window = Toplevel()
         self.history_window.geometry("375x350")
 
@@ -363,6 +370,7 @@ class Window(Frame):
 
     def exit_history_window(self):
         self.history_window.destroy()
+        self.history_window_open = False
 
     def exit_tester(self):
         """exit out of the cps tester and stop the program"""
