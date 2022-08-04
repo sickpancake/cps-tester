@@ -166,6 +166,25 @@ class Window(Frame):
 
     def add_run(self):
         date_and_time = datetime.today()
+        self.month = str(date_and_time.month)
+        if len(self.month) == 1:
+            self.month = "0" + self.month
+
+        self.day = str(date_and_time.day)
+        if len(self.day) == 1:
+            self.day = "0" + self.day
+
+        self.hour = str(date_and_time.hour)
+        if len(self.hour) == 1:
+            self.hour = "0" + self.hour
+
+        self.minute = str(date_and_time.minute)
+        if len(self.minute) == 1:
+            self.minute = "0" + self.minute
+
+        self.second = str(date_and_time.second)
+        if len(self.second) ==  1:
+            self.second = "0" + self.second
 
         self.cursor.execute(
             """insert into history (score, cps, date, time)
@@ -175,12 +194,12 @@ class Window(Frame):
                 "cps": self.cps,
                 "date":
                 str(date_and_time.year) + "-" +
-                str(date_and_time.month) + "-" +
-                str(date_and_time.day),
+                self.month + "-" +
+                self.day,
                 "time":
-                str(date_and_time.hour) + ":" +
-                str(date_and_time.minute) + ":" +
-                str(date_and_time.second)
+                self.hour + ":" +
+                self.minute + ":" +
+                self.second
             }
         )
 
