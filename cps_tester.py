@@ -3,10 +3,11 @@ this is a cps tester to track how fast you can click
 """
 import os
 import pathlib
-from textwrap import indent
 from tkinter import Frame, BOTH, Button, Label, Toplevel, Tk
 import sqlite3
 from datetime import datetime
+
+
 class Window(Frame):
     """setup for the window"""
 
@@ -25,7 +26,8 @@ class Window(Frame):
 
         self.pack(fill=BOTH, expand=1)
 
-        self.history_button = Button(self, text="history", command=self.create_history_window)
+        self.history_button = Button(
+            self, text="history", command=self.create_history_window)
         self.history_button.place(x=0, y=0)
 
         self.history_window_open = False
@@ -184,14 +186,15 @@ class Window(Frame):
             self.minute = "0" + self.minute
 
         self.second = str(date_and_time.second)
-        if len(self.second) ==  1:
+        if len(self.second) == 1:
             self.second = "0" + self.second
 
         if len(self.get_all_from_history()) == 0:
             self.index = 1
 
         else:
-            self.index = self.get_all_from_history()[len(self.get_all_from_history())-1][0] + 1
+            self.index = self.get_all_from_history()[len(
+                self.get_all_from_history())-1][0] + 1
 
         self.cursor.execute(
             """insert into history (id, score, cps, date, time)
@@ -215,16 +218,16 @@ class Window(Frame):
 
     def create_history_window(self):
         self.history_window_open = True
-        
+
         self.history_window = Toplevel()
         self.history_window.geometry("375x350")
 
         self.history_label = Label(self.history_window, text="History")
         self.history_label.place(x=150, y=5)
-        
-        self.history_exit_button = Button(self.history_window, text="exit", command=self.exit_history_window)
-        self.history_exit_button.place(x=320, y=0)
 
+        self.history_exit_button = Button(
+            self.history_window, text="exit", command=self.exit_history_window)
+        self.history_exit_button.place(x=320, y=0)
 
         self.create_ten_history_runs(self.get_ten_latest_runs())
 
@@ -241,7 +244,6 @@ class Window(Frame):
 
         return self.latest_runs
 
-
     def get_all_from_history(self):
         return self.cursor.execute(
             """select * from history order by id"""
@@ -249,10 +251,9 @@ class Window(Frame):
 
     def create_ten_history_runs(self, runs):
         if runs[0] != None:
-            self.run_one_label = Label(self.history_window, text=
-            "1: score: " + str(runs[0][1]) +
-            ", cps: " + str(runs[0][2]) +
-            ", date and time: " + runs[0][3] + " " + runs[0][4])
+            self.run_one_label = Label(self.history_window, text="1: score: " + str(runs[0][1]) +
+                                       ", cps: " + str(runs[0][2]) +
+                                       ", date and time: " + runs[0][3] + " " + runs[0][4])
 
         else:
             self.run_one_label = Label(self.history_window, text="1: None")
@@ -260,10 +261,9 @@ class Window(Frame):
         self.run_one_label.place(x=10, y=30)
 
         if runs[1] != None:
-            self.run_two_label = Label(self.history_window, text=
-            "2: score: " + str(runs[1][1]) +
-            ", cps: " + str(runs[1][2]) +
-            ", date and time: " + runs[1][3] + " " + runs[1][4])
+            self.run_two_label = Label(self.history_window, text="2: score: " + str(runs[1][1]) +
+                                       ", cps: " + str(runs[1][2]) +
+                                       ", date and time: " + runs[1][3] + " " + runs[1][4])
 
         else:
             self.run_two_label = Label(self.history_window, text="2: None")
@@ -271,10 +271,9 @@ class Window(Frame):
         self.run_two_label.place(x=10, y=50)
 
         if runs[2] != None:
-            self.run_three_label = Label(self.history_window, text=
-            "3: score: " + str(runs[2][1]) +
-            ", cps: " + str(runs[2][2]) +
-            ", date and time: " + runs[2][3] + " " + runs[2][4])
+            self.run_three_label = Label(self.history_window, text="3: score: " + str(runs[2][1]) +
+                                         ", cps: " + str(runs[2][2]) +
+                                         ", date and time: " + runs[2][3] + " " + runs[2][4])
 
         else:
             self.run_three_label = Label(self.history_window, text="3: None")
@@ -282,10 +281,9 @@ class Window(Frame):
         self.run_three_label.place(x=10, y=70)
 
         if runs[3] != None:
-            self.run_four_label = Label(self.history_window, text=
-            "4: score: " + str(runs[3][1]) +
-            ", cps: " + str(runs[3][2]) +
-            ", date and time: " + runs[3][3] + " " + runs[3][4])
+            self.run_four_label = Label(self.history_window, text="4: score: " + str(runs[3][1]) +
+                                        ", cps: " + str(runs[3][2]) +
+                                        ", date and time: " + runs[3][3] + " " + runs[3][4])
 
         else:
             self.run_four_label = Label(self.history_window, text="4: None")
@@ -293,10 +291,9 @@ class Window(Frame):
         self.run_four_label.place(x=10, y=90)
 
         if runs[4] != None:
-            self.run_five_label = Label(self.history_window, text=
-            "5: score: " + str(runs[4][1]) +
-            ", cps: " + str(runs[4][2]) +
-            ", date and time: " + runs[4][3] + " " + runs[4][4])
+            self.run_five_label = Label(self.history_window, text="5: score: " + str(runs[4][1]) +
+                                        ", cps: " + str(runs[4][2]) +
+                                        ", date and time: " + runs[4][3] + " " + runs[4][4])
 
         else:
             self.run_five_label = Label(self.history_window, text="5: None")
@@ -304,10 +301,9 @@ class Window(Frame):
         self.run_five_label.place(x=10, y=110)
 
         if runs[5] != None:
-            self.run_six_label = Label(self.history_window, text=
-            "6: score: " + str(runs[5][1]) +
-            ", cps: " + str(runs[5][2]) +
-            ", date and time: " + runs[5][3] + " " + runs[5][4])
+            self.run_six_label = Label(self.history_window, text="6: score: " + str(runs[5][1]) +
+                                       ", cps: " + str(runs[5][2]) +
+                                       ", date and time: " + runs[5][3] + " " + runs[5][4])
 
         else:
             self.run_six_label = Label(self.history_window, text="6: None")
@@ -315,10 +311,9 @@ class Window(Frame):
         self.run_six_label.place(x=10, y=130)
 
         if runs[6] != None:
-            self.run_seven_label = Label(self.history_window, text=
-            "7: score: " + str(runs[6][1]) +
-            ", cps: " + str(runs[6][2]) +
-            ", date and time: " + runs[6][3] + " " + runs[0][4])
+            self.run_seven_label = Label(self.history_window, text="7: score: " + str(runs[6][1]) +
+                                         ", cps: " + str(runs[6][2]) +
+                                         ", date and time: " + runs[6][3] + " " + runs[0][4])
 
         else:
             self.run_seven_label = Label(self.history_window, text="7: None")
@@ -326,10 +321,9 @@ class Window(Frame):
         self.run_seven_label.place(x=10, y=150)
 
         if runs[7] != None:
-            self.run_eight_label = Label(self.history_window, text=
-            "8: score: " + str(runs[7][1]) +
-            ", cps: " + str(runs[7][2]) +
-            ", date and time: " + runs[7][3] + " " + runs[7][4])
+            self.run_eight_label = Label(self.history_window, text="8: score: " + str(runs[7][1]) +
+                                         ", cps: " + str(runs[7][2]) +
+                                         ", date and time: " + runs[7][3] + " " + runs[7][4])
 
         else:
             self.run_eight_label = Label(self.history_window, text="8: None")
@@ -337,10 +331,9 @@ class Window(Frame):
         self.run_eight_label.place(x=10, y=170)
 
         if runs[8] != None:
-            self.run_nine_label = Label(self.history_window, text=
-            "9: score: " + str(runs[8][1]) +
-            ", cps: " + str(runs[8][2]) +
-            ", date and time: " + runs[8][3] + " " + runs[8][4])
+            self.run_nine_label = Label(self.history_window, text="9: score: " + str(runs[8][1]) +
+                                        ", cps: " + str(runs[8][2]) +
+                                        ", date and time: " + runs[8][3] + " " + runs[8][4])
 
         else:
             self.run_nine_label = Label(self.history_window, text="9: None")
@@ -348,10 +341,9 @@ class Window(Frame):
         self.run_nine_label.place(x=10, y=190)
 
         if runs[9] != None:
-            self.run_ten_label = Label(self.history_window, text=
-            "10: score: " + str(runs[9][1]) +
-            ", cps: " + str(runs[9][2]) +
-            ", date and time: " + runs[9][3] + " " + runs[9][4])
+            self.run_ten_label = Label(self.history_window, text="10: score: " + str(runs[9][1]) +
+                                       ", cps: " + str(runs[9][2]) +
+                                       ", date and time: " + runs[9][3] + " " + runs[9][4])
 
         else:
             self.run_ten_label = Label(self.history_window, text="10: None")
