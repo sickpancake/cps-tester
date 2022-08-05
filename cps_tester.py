@@ -6,7 +6,6 @@ import pathlib
 from tkinter import Frame, BOTH, Button, Label, Toplevel, Tk
 import sqlite3
 from datetime import datetime
-from tkinter.messagebox import NO
 
 
 class Window(Frame):
