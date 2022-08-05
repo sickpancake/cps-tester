@@ -248,13 +248,13 @@ class Window(Frame):
     def get_ten_runs(self):
         """create a list of ten runs"""
         latest_runs = []
-        for x in range(len(self.get_all_from_history())):
-            if x != 10 and x != len(self.get_all_from_history()) is True:
+        for index in range(len(self.get_all_from_history())):
+            if index != 10 and index != len(self.get_all_from_history()) is True:
                 break
 
-            latest_runs.append(self.get_all_from_history()[x-1])
+            latest_runs.append(self.get_all_from_history()[index-1])
 
-        for x in range(10 - len(self.get_all_from_history())):
+        for index in range(10 - len(self.get_all_from_history())):
             latest_runs.append(None)
 
         return latest_runs
