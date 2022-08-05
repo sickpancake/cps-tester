@@ -5,6 +5,7 @@ import os
 import pathlib
 from tkinter import Frame, BOTH, Button, Label, Toplevel, Tk
 import sqlite3
+from datetime import datetime
 
 
 class Window(Frame):
@@ -21,9 +22,27 @@ class Window(Frame):
         self.first_time = True
         self.score_window = None
 
+        self.history_window = None
+        self.run_one_label = None
+        self.run_two_label = None
+        self.run_three_label = None
+        self.run_four_label = None
+        self.run_five_label = None
+        self.run_six_label = None
+        self.run_seven_label = None
+        self.run_eight_label = None
+        self.run_nine_label = None
+        self.run_ten_label = None
+
         self.remaining = 0
 
         self.pack(fill=BOTH, expand=1)
+
+        self.history_button = Button(
+            self, text="history", command=self.create_history_window)
+        self.history_button.place(x=0, y=0)
+
+        self.history_window_open = False
 
         self.exit_button = Button(self, text="exit", command=self.exit_tester)
         self.exit_button.place(x=445, y=0)
@@ -55,6 +74,15 @@ class Window(Frame):
 
         self.cursor.execute("""
         create table if not exists highscore([highscore] integer)
+        """)
+
+        self.cursor.execute("""
+        create table if not exists history(
+        [id] integer,
+        [score] integer,
+        [cps] integer,
+        [date] string,
+        [time] string)
         """)
 
         length_of_highscore = self.cursor.execute(
@@ -109,6 +137,10 @@ class Window(Frame):
         self.score_window.overrideredirect(1)
         self.highscore = self.cursor.execute("""select * from highscore""")
         self.highscore = self.highscore.fetchall()[0][0]
+        self.add_run()
+        if self.history_window_open is True:
+            self.create_ten_history_runs(self.get_ten_runs())
+
         if self.highscore < self.score:
             self.cursor.execute(
                 """update highscore set highscore = :newhighscore where
@@ -134,7 +166,7 @@ class Window(Frame):
         self.score_window.geometry("250x200")
         self.clicking_button.configure(state="disabled")
         self.ok_button = Button(
-            self.score_window, text="ok", command=self.close_second_window)
+            self.score_window, text="ok", command=self.close_score_window)
         self.ok_button.place(x=110, y=120)
         score_label = Label(self.score_window,
                             text="you got " + str(self.score) + " clicks in 5 seconds")
@@ -146,6 +178,194 @@ class Window(Frame):
         ranking_label = Label(
             self.score_window, text="ranking: " + self.get_ranking())
         ranking_label.place(x=75, y=65)
+
+    def add_run(self):
+        """Add a run to the history table (SQL DATABASE)"""
+        date_and_time = datetime.today()
+        month = str(date_and_time.month)
+        if len(month) == 1:
+            month = "0" + month
+
+        day = str(date_and_time.day)
+        if len(day) == 1:
+            day = "0" + day
+
+        hour = str(date_and_time.hour)
+        if len(hour) == 1:
+            hour = "0" + hour
+
+        minute = str(date_and_time.minute)
+        if len(minute) == 1:
+            minute = "0" + minute
+
+        second = str(date_and_time.second)
+        if len(second) == 1:
+            second = "0" + second
+
+        if len(self.get_all_from_history()) == 0:
+            index = 1
+
+        else:
+            index = self.get_all_from_history()[len(
+                self.get_all_from_history())-1][0] + 1
+
+        self.cursor.execute(
+            """insert into history (id, score, cps, date, time)
+            values (:id, :score, :cps, :date, :time)""",
+            {
+                "id": index,
+                "score": self.score,
+                "cps": self.cps,
+                "date":
+                str(date_and_time.year) + "-" +
+                month + "-" +
+                day,
+                "time":
+                hour + ":" +
+                minute + ":" +
+                second
+            }
+        )
+
+        self.con.commit()
+
+    def create_history_window(self):
+        """creates the history window"""
+        self.history_window_open = True
+
+        self.history_window = Toplevel()
+        self.history_window.geometry("375x350")
+
+        history_label = Label(self.history_window, text="History")
+        history_label.place(x=150, y=5)
+
+        history_exit_button = Button(
+            self.history_window, text="exit", command=self.exit_history_window)
+        history_exit_button.place(x=320, y=0)
+
+        self.create_ten_history_runs(self.get_ten_runs())
+
+    def get_ten_runs(self):
+        """create a list of ten runs"""
+        latest_runs = []
+        for index in range(len(self.get_all_from_history())):
+            if index != 10 and index != len(self.get_all_from_history()) is True:
+                break
+
+            latest_runs.append(self.get_all_from_history()[index-1])
+
+        for index in range(10 - len(self.get_all_from_history())):
+            latest_runs.append(None)
+
+        return latest_runs
+
+    def get_all_from_history(self):
+        """get all from history"""
+        return self.cursor.execute(
+            """select * from history order by id"""
+        ).fetchall()
+
+    def create_ten_history_runs(self, runs):
+        """creates ten of the history labels"""
+        if runs[0] is not None:
+            self.run_one_label = Label(self.history_window, text="1: score: " + str(runs[0][1]) +
+                                       ", cps: " + str(runs[0][2]) +
+                                       ", date and time: " + runs[0][3] + " " + runs[0][4])
+
+        else:
+            self.run_one_label = Label(self.history_window, text="1: None")
+
+        self.run_one_label.place(x=10, y=30)
+
+        if runs[1] is not None:
+            self.run_two_label = Label(self.history_window, text="2: score: " + str(runs[1][1]) +
+                                       ", cps: " + str(runs[1][2]) +
+                                       ", date and time: " + runs[1][3] + " " + runs[1][4])
+
+        else:
+            self.run_two_label = Label(self.history_window, text="2: None")
+
+        self.run_two_label.place(x=10, y=50)
+
+        if runs[2] is not None:
+            self.run_three_label = Label(self.history_window, text="3: score: " + str(runs[2][1]) +
+                                         ", cps: " + str(runs[2][2]) +
+                                         ", date and time: " + runs[2][3] + " " + runs[2][4])
+
+        else:
+            self.run_three_label = Label(self.history_window, text="3: None")
+
+        self.run_three_label.place(x=10, y=70)
+
+        if runs[3] is not None:
+            self.run_four_label = Label(self.history_window, text="4: score: " + str(runs[3][1]) +
+                                        ", cps: " + str(runs[3][2]) +
+                                        ", date and time: " + runs[3][3] + " " + runs[3][4])
+
+        else:
+            self.run_four_label = Label(self.history_window, text="4: None")
+
+        self.run_four_label.place(x=10, y=90)
+
+        if runs[4] is not None:
+            self.run_five_label = Label(self.history_window, text="5: score: " + str(runs[4][1]) +
+                                        ", cps: " + str(runs[4][2]) +
+                                        ", date and time: " + runs[4][3] + " " + runs[4][4])
+
+        else:
+            self.run_five_label = Label(self.history_window, text="5: None")
+
+        self.run_five_label.place(x=10, y=110)
+
+        if runs[5] is not None:
+            self.run_six_label = Label(self.history_window, text="6: score: " + str(runs[5][1]) +
+                                       ", cps: " + str(runs[5][2]) +
+                                       ", date and time: " + runs[5][3] + " " + runs[5][4])
+
+        else:
+            self.run_six_label = Label(self.history_window, text="6: None")
+
+        self.run_six_label.place(x=10, y=130)
+
+        if runs[6] is not None:
+            self.run_seven_label = Label(self.history_window, text="7: score: " + str(runs[6][1]) +
+                                         ", cps: " + str(runs[6][2]) +
+                                         ", date and time: " + runs[6][3] + " " + runs[0][4])
+
+        else:
+            self.run_seven_label = Label(self.history_window, text="7: None")
+
+        self.run_seven_label.place(x=10, y=150)
+
+        if runs[7] is not None:
+            self.run_eight_label = Label(self.history_window, text="8: score: " + str(runs[7][1]) +
+                                         ", cps: " + str(runs[7][2]) +
+                                         ", date and time: " + runs[7][3] + " " + runs[7][4])
+
+        else:
+            self.run_eight_label = Label(self.history_window, text="8: None")
+
+        self.run_eight_label.place(x=10, y=170)
+
+        if runs[8] is not None:
+            self.run_nine_label = Label(self.history_window, text="9: score: " + str(runs[8][1]) +
+                                        ", cps: " + str(runs[8][2]) +
+                                        ", date and time: " + runs[8][3] + " " + runs[8][4])
+
+        else:
+            self.run_nine_label = Label(self.history_window, text="9: None")
+
+        self.run_nine_label.place(x=10, y=190)
+
+        if runs[9] is not None:
+            self.run_ten_label = Label(self.history_window, text="10: score: " + str(runs[9][1]) +
+                                       ", cps: " + str(runs[9][2]) +
+                                       ", date and time: " + runs[9][3] + " " + runs[9][4])
+
+        else:
+            self.run_ten_label = Label(self.history_window, text="10: None")
+
+        self.run_ten_label.place(x=10, y=210)
 
     def get_ranking(self):
         """get the ranking of from the cps"""
@@ -179,10 +399,15 @@ class Window(Frame):
         if self.cps == 21 or self.cps > 21:
             return "godlike"
 
-    def close_second_window(self):
+    def close_score_window(self):
         """close the score window"""
         self.score_window.destroy()
         self.clicking_button.configure(state="active")
+
+    def exit_history_window(self):
+        """close the score window"""
+        self.history_window.destroy()
+        self.history_window_open = False
 
     def exit_tester(self):
         """exit out of the cps tester and stop the program"""
