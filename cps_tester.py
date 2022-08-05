@@ -169,25 +169,25 @@ class Window(Frame):
 
     def add_run(self):
         date_and_time = datetime.today()
-        self.month = str(date_and_time.month)
-        if len(self.month) == 1:
-            self.month = "0" + self.month
+        month = str(date_and_time.month)
+        if len(month) == 1:
+            month = "0" + month
 
-        self.day = str(date_and_time.day)
-        if len(self.day) == 1:
-            self.day = "0" + self.day
+        day = str(date_and_time.day)
+        if len(day) == 1:
+            day = "0" + day
 
-        self.hour = str(date_and_time.hour)
-        if len(self.hour) == 1:
-            self.hour = "0" + self.hour
+        hour = str(date_and_time.hour)
+        if len(hour) == 1:
+            hour = "0" + hour
 
-        self.minute = str(date_and_time.minute)
-        if len(self.minute) == 1:
-            self.minute = "0" + self.minute
+        minute = str(date_and_time.minute)
+        if len(minute) == 1:
+            minute = "0" + minute
 
-        self.second = str(date_and_time.second)
-        if len(self.second) == 1:
-            self.second = "0" + self.second
+        second = str(date_and_time.second)
+        if len(second) == 1:
+            second = "0" + second
 
         if len(self.get_all_from_history()) == 0:
             self.index = 1
@@ -205,12 +205,12 @@ class Window(Frame):
                 "cps": self.cps,
                 "date":
                 str(date_and_time.year) + "-" +
-                self.month + "-" +
-                self.day,
+                month + "-" +
+                day,
                 "time":
-                self.hour + ":" +
-                self.minute + ":" +
-                self.second
+                hour + ":" +
+                minute + ":" +
+                second
             }
         )
 
