@@ -21,6 +21,8 @@ class Window(Frame):
         self.cps = None
         self.first_time = True
         self.score_window = None
+        
+        self.history_window = None
 
         self.remaining = 0
 
@@ -190,17 +192,17 @@ class Window(Frame):
             second = "0" + second
 
         if len(self.get_all_from_history()) == 0:
-            self.index = 1
+            index = 1
 
         else:
-            self.index = self.get_all_from_history()[len(
+            index = self.get_all_from_history()[len(
                 self.get_all_from_history())-1][0] + 1
 
         self.cursor.execute(
             """insert into history (id, score, cps, date, time)
             values (:id, :score, :cps, :date, :time)""",
             {
-                "id": self.index,
+                "id": index,
                 "score": self.score,
                 "cps": self.cps,
                 "date":
