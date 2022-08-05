@@ -260,11 +260,13 @@ class Window(Frame):
         return latest_runs
 
     def get_all_from_history(self):
+        """get all from history"""
         return self.cursor.execute(
             """select * from history order by id"""
         ).fetchall()
 
     def create_ten_history_runs(self, runs):
+        """creates ten of the history labels"""
         if runs[0] != None:
             self.run_one_label = Label(self.history_window, text="1: score: " + str(runs[0][1]) +
                                        ", cps: " + str(runs[0][2]) +
