@@ -21,7 +21,7 @@ class Window(Frame):
         self.cps = None
         self.first_time = True
         self.score_window = None
-        
+
         self.history_window = None
         self.run_one_label = None
         self.run_two_label = None
@@ -138,8 +138,8 @@ class Window(Frame):
         self.highscore = self.cursor.execute("""select * from highscore""")
         self.highscore = self.highscore.fetchall()[0][0]
         self.add_run()
-        if self.history_window_open == True:
-            self.create_ten_history_runs(self.get_ten_latest_runs())
+        if self.history_window_open is True:
+            self.create_ten_history_runs(self.get_ten_runs())
 
         if self.highscore < self.score:
             self.cursor.execute(
@@ -180,6 +180,7 @@ class Window(Frame):
         ranking_label.place(x=75, y=65)
 
     def add_run(self):
+        """Add a run to the history table (SQL DATABASE)"""
         date_and_time = datetime.today()
         month = str(date_and_time.month)
         if len(month) == 1:
@@ -229,6 +230,7 @@ class Window(Frame):
         self.con.commit()
 
     def create_history_window(self):
+        """creates the history window"""
         self.history_window_open = True
 
         self.history_window = Toplevel()
@@ -241,9 +243,10 @@ class Window(Frame):
             self.history_window, text="exit", command=self.exit_history_window)
         history_exit_button.place(x=320, y=0)
 
-        self.create_ten_history_runs(self.get_ten_latest_runs())
+        self.create_ten_history_runs(self.get_ten_runs())
 
-    def get_ten_latest_runs(self):
+    def get_ten_runs(self):
+        """create a list of ten runs"""
         latest_runs = []
         for x in range(len(self.get_all_from_history())):
             if x != 10 and x != len(self.get_all_from_history()) is True:
