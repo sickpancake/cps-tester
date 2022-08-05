@@ -224,12 +224,12 @@ class Window(Frame):
         self.history_window = Toplevel()
         self.history_window.geometry("375x350")
 
-        self.history_label = Label(self.history_window, text="History")
-        self.history_label.place(x=150, y=5)
+        history_label = Label(self.history_window, text="History")
+        history_label.place(x=150, y=5)
 
-        self.history_exit_button = Button(
+        history_exit_button = Button(
             self.history_window, text="exit", command=self.exit_history_window)
-        self.history_exit_button.place(x=320, y=0)
+        history_exit_button.place(x=320, y=0)
 
         self.create_ten_history_runs(self.get_ten_latest_runs())
 
