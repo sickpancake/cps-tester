@@ -6,6 +6,7 @@ import pathlib
 from tkinter import Frame, BOTH, Button, Label, Toplevel, Tk
 import sqlite3
 from datetime import datetime
+from tkinter.messagebox import NO
 
 
 class Window(Frame):
@@ -23,6 +24,16 @@ class Window(Frame):
         self.score_window = None
         
         self.history_window = None
+        self.run_one_label = None
+        self.run_two_label = None
+        self.run_three_label = None
+        self.run_four_label = None
+        self.run_five_label = None
+        self.run_six_label = None
+        self.run_seven_label = None
+        self.run_eight_label = None
+        self.run_nine_label = None
+        self.run_ten_label = None
 
         self.remaining = 0
 
@@ -234,17 +245,17 @@ class Window(Frame):
         self.create_ten_history_runs(self.get_ten_latest_runs())
 
     def get_ten_latest_runs(self):
-        self.latest_runs = []
+        latest_runs = []
         for x in range(len(self.get_all_from_history())):
             if x != 10 and x != len(self.get_all_from_history()) is True:
                 break
 
-            self.latest_runs.append(self.get_all_from_history()[x-1])
+            latest_runs.append(self.get_all_from_history()[x-1])
 
         for x in range(10 - len(self.get_all_from_history())):
-            self.latest_runs.append(None)
+            latest_runs.append(None)
 
-        return self.latest_runs
+        return latest_runs
 
     def get_all_from_history(self):
         return self.cursor.execute(
