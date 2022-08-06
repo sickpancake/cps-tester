@@ -3,7 +3,7 @@ CPS tester is a fun tool that tracks your CPS, clicks per second.
 
 CPS tester has a history to see your past 10 runs.
 
-![Thanks to [Dall-e](https://openai.com/dall-e-2/) for this logo](/Home/Downloads/cpsTesterLogo.jpeg)
+![Logo](/Home/Downloads/cpsTesterLogo.jpeg)
 ## Prerequisites
 
 - Tkinter
