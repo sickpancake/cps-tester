@@ -1,9 +1,11 @@
 # CPS Tester
+
+![Logo](cpsTesterLogo.jpeg)
+
 CPS tester is a fun tool that tracks your CPS, clicks per second.
 
 CPS tester has a history to see your past 10 runs.
 
-![Logo](/Home/Downloads/cpsTesterLogo.jpeg)
 ## Prerequisites
 
 - Tkinter
