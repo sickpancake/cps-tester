@@ -1,6 +1,5 @@
 # CPS Tester
-
-![Logo](cpsTesterLogo.jpeg)
+<img src="cpsTesterLogo.jpeg" width="200" height="200">
 
 CPS tester is a fun tool that tracks your CPS, clicks per second.
 
