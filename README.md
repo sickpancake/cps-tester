@@ -16,3 +16,8 @@ CPS tester has a history to see your past 10 runs.
 
 1. Run `python cps_tester.py`
 2. Start testing your CPS by clicking
+
+## Upcoming Updates
+
+- settings window
+- allow more runs to be viewed in history
