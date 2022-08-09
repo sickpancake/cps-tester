@@ -18,11 +18,11 @@ CPS tester has a history to see your past 10 runs.
 
 ## How to use
 
-1. Run `python cps_tester.py`
-2. Start testing your CPS by clicking the big click button in the middle of the score screen
+1. Run `python3 cps_tester.py`
+2. Start testing your CPS by clicking the big clickbutton in the middle of the score screen.
 
 3. The timer will start so start clicking the big button!
-4. 
+4. Once the timer runs out the button will deactivate and a score screen with pop up with your click count (score) and your cps. If you broke your record it will say that too.
 
 ## Upcoming Updates
 
