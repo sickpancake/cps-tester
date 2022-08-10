@@ -369,35 +369,35 @@ class Window(Frame):
 
     def get_ranking(self):
         """get the ranking of from the cps"""
-        if self.cps == 4 or self.cps < 4:
+        if self.cps < 4:
             return "noob"
 
-        if self.cps == 5 or self.cps == 6:
-            return "normal"
-
-        if self.cps == 7 or self.cps == 8:
-            return "rookie"
-
-        if self.cps == 9 or self.cps == 10:
-            return "iron"
-
-        if self.cps == 11 or self.cps == 12:
-            return "gold"
-
-        if self.cps == 13 or self.cps == 14:
-            return "diamond"
-
-        if self.cps == 15 or self.cps == 16:
-            return "master"
-
-        if self.cps == 17 or self.cps == 18:
-            return "legend"
-
-        if self.cps == 19 or self.cps == 20:
-            return "grandmaster"
-
-        if self.cps == 21 or self.cps > 21:
+        if self.cps > 21:
             return "godlike"
+
+        rankings = {
+            4: "noob",
+            5: "normal",
+            6: "normal",
+            7: "rookie",
+            8: "rookie",
+            9: "iron",
+            10: "iron",
+            11: "gold",
+            12: "gold",
+            13: "diamond",
+            14: "diamond",
+            15: "master",
+            16: "master",
+            17: "legend",
+            18: "legend",
+            19: "grandmaster",
+            20: "grandmaster",
+            21: "godlike"
+        }
+        
+        return rankings.get(self.cps)
+
 
     def close_score_window(self):
         """close the score window"""

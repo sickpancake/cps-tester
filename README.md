@@ -1,4 +1,5 @@
 # CPS Tester
+
 <img src="cpsTesterLogo.jpeg" width="200" height="200">
 
 > Thanks [DALL-e](https://openai.com/dall-e-2/) for the logo.
@@ -15,6 +16,10 @@ CPS tester has a history to see your past 10 runs.
 
 - Tkinter
 - sqlite3
+
+# How to install
+
+
 
 ## How to use
 
