@@ -23,16 +23,7 @@ class Window(Frame):
         self.score_window = None
 
         self.history_window = None
-        self.run_one_label = None
-        self.run_two_label = None
-        self.run_three_label = None
-        self.run_four_label = None
-        self.run_five_label = None
-        self.run_six_label = None
-        self.run_seven_label = None
-        self.run_eight_label = None
-        self.run_nine_label = None
-        self.run_ten_label = None
+        self.run_label = None
 
         self.remaining = 0
 
@@ -267,24 +258,24 @@ class Window(Frame):
 
     def create_ten_history_runs(self, runs):
         """creates ten of the history labels"""
-        i = 0
+
         y_cord = 30
 
-        for x in range(10):
-            if runs[i] is not None:
-                self.run_label = Label(self.history_window, text=str(i+1) +
-                                           ": score: " + 
-                                           str(runs[i][1]) +
-                                           ", cps: " + str(runs[i][2]) +
-                                           ", date and time: " + runs[i][3] + " " + runs[i][4])
+        for index in range(0, 9):
+            if runs[index] is not None:
+                self.run_label = Label(self.history_window, text=str(index+1) +
+                                           ": score: " +
+                                           str(runs[index][1]) +
+                                           ", cps: " + str(runs[index][2]) +
+                                           ", date and time: " + runs[index][3] +
+                                           " " + runs[index][4])
 
             else:
                 self.run_label = Label(
-                    self.history_window, text=str(i+1) + ": None")
+                    self.history_window, text=str(index+1) + ": None")
 
             self.run_label.place(x=10, y=y_cord)
 
-            i += 1
             y_cord += 20
 
     def get_ranking(self):
