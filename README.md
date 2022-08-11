@@ -14,10 +14,24 @@ CPS tester has a history to see your past 10 runs.
 
 ## How to install
 
+1. Download latest release from <https://github.com/sickpancake/cps-tester/releases> to a path
+
+2. Run `tar zxvf cps_tester-<version>.tar.gz`
+
+3. Run `./cps_tester`
+
 ## Prerequisites
 
 - Tkinter
 - sqlite3
+- pyinstaller
+
+## Build
+
+```bash
+$ pyinstaller -F cps_tester.py 
+# the dist/ directory should have `cps_tester` binary now.
+```
 
 ## How to use
 

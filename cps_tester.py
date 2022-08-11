@@ -3,6 +3,7 @@ this is a cps tester to track how fast you can click
 """
 import os
 import pathlib
+import sys
 from tkinter import Frame, BOTH, Button, Label, Toplevel, Tk
 import sqlite3
 from datetime import datetime
@@ -321,7 +322,7 @@ class Window(Frame):
 
     def exit_tester(self):
         """exit out of the cps tester and stop the program"""
-        exit()
+        sys.exit()
 
 
 root = Tk()
