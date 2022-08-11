@@ -12,14 +12,12 @@ CPS tester has a history to see your past 10 runs.
 
 <img src="cps_tester_history_image.png" width="225" height="250">
 
+## How to install
+
 ## Prerequisites
 
 - Tkinter
 - sqlite3
-
-# How to install
-
-
 
 ## How to use
 
@@ -43,3 +41,4 @@ CPS tester has a history to see your past 10 runs.
 - settings window
 - allow more runs to be viewed in history
 - better graphics like rounded corners and own fonts, can be changed in settings window
+- add a world wide highscore and a total clicks around the world both stored in a website
