@@ -3,6 +3,7 @@ this is a cps tester to track how fast you can click
 """
 import os
 import pathlib
+import sys
 from tkinter import Frame, BOTH, Button, Label, Toplevel, Tk
 import sqlite3
 from datetime import datetime
@@ -23,16 +24,7 @@ class Window(Frame):
         self.score_window = None
 
         self.history_window = None
-        self.run_one_label = None
-        self.run_two_label = None
-        self.run_three_label = None
-        self.run_four_label = None
-        self.run_five_label = None
-        self.run_six_label = None
-        self.run_seven_label = None
-        self.run_eight_label = None
-        self.run_nine_label = None
-        self.run_ten_label = None
+        self.run_label = None
 
         self.remaining = 0
 
@@ -267,137 +259,56 @@ class Window(Frame):
 
     def create_ten_history_runs(self, runs):
         """creates ten of the history labels"""
-        if runs[0] is not None:
-            self.run_one_label = Label(self.history_window, text="1: score: " + str(runs[0][1]) +
-                                       ", cps: " + str(runs[0][2]) +
-                                       ", date and time: " + runs[0][3] + " " + runs[0][4])
 
-        else:
-            self.run_one_label = Label(self.history_window, text="1: None")
+        y_cord = 30
 
-        self.run_one_label.place(x=10, y=30)
+        for index in range(0, 9):
+            if runs[index] is not None:
+                self.run_label = Label(self.history_window, text=str(index+1) +
+                                           ": score: " +
+                                           str(runs[index][1]) +
+                                           ", cps: " + str(runs[index][2]) +
+                                           ", date and time: " + runs[index][3] +
+                                           " " + runs[index][4])
 
-        if runs[1] is not None:
-            self.run_two_label = Label(self.history_window, text="2: score: " + str(runs[1][1]) +
-                                       ", cps: " + str(runs[1][2]) +
-                                       ", date and time: " + runs[1][3] + " " + runs[1][4])
+            else:
+                self.run_label = Label(
+                    self.history_window, text=str(index+1) + ": None")
 
-        else:
-            self.run_two_label = Label(self.history_window, text="2: None")
+            self.run_label.place(x=10, y=y_cord)
 
-        self.run_two_label.place(x=10, y=50)
-
-        if runs[2] is not None:
-            self.run_three_label = Label(self.history_window, text="3: score: " + str(runs[2][1]) +
-                                         ", cps: " + str(runs[2][2]) +
-                                         ", date and time: " + runs[2][3] + " " + runs[2][4])
-
-        else:
-            self.run_three_label = Label(self.history_window, text="3: None")
-
-        self.run_three_label.place(x=10, y=70)
-
-        if runs[3] is not None:
-            self.run_four_label = Label(self.history_window, text="4: score: " + str(runs[3][1]) +
-                                        ", cps: " + str(runs[3][2]) +
-                                        ", date and time: " + runs[3][3] + " " + runs[3][4])
-
-        else:
-            self.run_four_label = Label(self.history_window, text="4: None")
-
-        self.run_four_label.place(x=10, y=90)
-
-        if runs[4] is not None:
-            self.run_five_label = Label(self.history_window, text="5: score: " + str(runs[4][1]) +
-                                        ", cps: " + str(runs[4][2]) +
-                                        ", date and time: " + runs[4][3] + " " + runs[4][4])
-
-        else:
-            self.run_five_label = Label(self.history_window, text="5: None")
-
-        self.run_five_label.place(x=10, y=110)
-
-        if runs[5] is not None:
-            self.run_six_label = Label(self.history_window, text="6: score: " + str(runs[5][1]) +
-                                       ", cps: " + str(runs[5][2]) +
-                                       ", date and time: " + runs[5][3] + " " + runs[5][4])
-
-        else:
-            self.run_six_label = Label(self.history_window, text="6: None")
-
-        self.run_six_label.place(x=10, y=130)
-
-        if runs[6] is not None:
-            self.run_seven_label = Label(self.history_window, text="7: score: " + str(runs[6][1]) +
-                                         ", cps: " + str(runs[6][2]) +
-                                         ", date and time: " + runs[6][3] + " " + runs[0][4])
-
-        else:
-            self.run_seven_label = Label(self.history_window, text="7: None")
-
-        self.run_seven_label.place(x=10, y=150)
-
-        if runs[7] is not None:
-            self.run_eight_label = Label(self.history_window, text="8: score: " + str(runs[7][1]) +
-                                         ", cps: " + str(runs[7][2]) +
-                                         ", date and time: " + runs[7][3] + " " + runs[7][4])
-
-        else:
-            self.run_eight_label = Label(self.history_window, text="8: None")
-
-        self.run_eight_label.place(x=10, y=170)
-
-        if runs[8] is not None:
-            self.run_nine_label = Label(self.history_window, text="9: score: " + str(runs[8][1]) +
-                                        ", cps: " + str(runs[8][2]) +
-                                        ", date and time: " + runs[8][3] + " " + runs[8][4])
-
-        else:
-            self.run_nine_label = Label(self.history_window, text="9: None")
-
-        self.run_nine_label.place(x=10, y=190)
-
-        if runs[9] is not None:
-            self.run_ten_label = Label(self.history_window, text="10: score: " + str(runs[9][1]) +
-                                       ", cps: " + str(runs[9][2]) +
-                                       ", date and time: " + runs[9][3] + " " + runs[9][4])
-
-        else:
-            self.run_ten_label = Label(self.history_window, text="10: None")
-
-        self.run_ten_label.place(x=10, y=210)
+            y_cord += 20
 
     def get_ranking(self):
         """get the ranking of from the cps"""
-        if self.cps == 4 or self.cps < 4:
+        if self.cps < 4:
             return "noob"
 
-        if self.cps == 5 or self.cps == 6:
-            return "normal"
-
-        if self.cps == 7 or self.cps == 8:
-            return "rookie"
-
-        if self.cps == 9 or self.cps == 10:
-            return "iron"
-
-        if self.cps == 11 or self.cps == 12:
-            return "gold"
-
-        if self.cps == 13 or self.cps == 14:
-            return "diamond"
-
-        if self.cps == 15 or self.cps == 16:
-            return "master"
-
-        if self.cps == 17 or self.cps == 18:
-            return "legend"
-
-        if self.cps == 19 or self.cps == 20:
-            return "grandmaster"
-
-        if self.cps == 21 or self.cps > 21:
+        if self.cps > 21:
             return "godlike"
+
+        rankings = {
+            4: "noob",
+            5: "normal",
+            6: "normal",
+            7: "rookie",
+            8: "rookie",
+            9: "iron",
+            10: "iron",
+            11: "gold",
+            12: "gold",
+            13: "diamond",
+            14: "diamond",
+            15: "master",
+            16: "master",
+            17: "legend",
+            18: "legend",
+            19: "grandmaster",
+            20: "grandmaster",
+            21: "godlike"
+        }
+
+        return rankings.get(self.cps)
 
     def close_score_window(self):
         """close the score window"""
@@ -411,7 +322,7 @@ class Window(Frame):
 
     def exit_tester(self):
         """exit out of the cps tester and stop the program"""
-        exit()
+        sys.exit()
 
 
 root = Tk()

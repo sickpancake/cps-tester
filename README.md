@@ -1,4 +1,5 @@
 # CPS Tester
+
 <img src="cpsTesterLogo.jpeg" width="200" height="200">
 
 > Thanks [DALL-e](https://openai.com/dall-e-2/) for the logo.
@@ -11,10 +12,26 @@ CPS tester has a history to see your past 10 runs.
 
 <img src="cps_tester_history_image.png" width="225" height="250">
 
+## How to install
+
+1. Download latest release from <https://github.com/sickpancake/cps-tester/releases> to a path
+
+2. Run `tar zxvf cps_tester-<version>.tar.gz`
+
+3. Run `./cps_tester`
+
 ## Prerequisites
 
 - Tkinter
 - sqlite3
+- pyinstaller
+
+## Build
+
+```bash
+$ pyinstaller -F cps_tester.py 
+# the dist/ directory should have `cps_tester` binary now.
+```
 
 ## How to use
 
@@ -38,3 +55,4 @@ CPS tester has a history to see your past 10 runs.
 - settings window
 - allow more runs to be viewed in history
 - better graphics like rounded corners and own fonts, can be changed in settings window
+- add a world wide highscore and a total clicks around the world both stored in a website
