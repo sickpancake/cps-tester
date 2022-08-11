@@ -16,7 +16,7 @@ CPS tester has a history to see your past 10 runs.
 
 1. Download latest release from <https://github.com/sickpancake/cps-tester/releases> to a path
 
-2. Run `tar zxvf cps_tester-<version>.tar.gz`
+2. Run `unzip cps_tester-<version>.zip`
 
 3. Run `./cps_tester`
 
