@@ -30,11 +30,19 @@ class Window(Frame):
 
         self.pack(fill=BOTH, expand=1)
 
+        self.settings_button = Button(
+            self, text="settings", command=None
+        )
+        self.settings_button.place(x=0, y=0)
+
         self.history_button = Button(
-            self, text="history", command=self.create_history_window)
-        self.history_button.place(x=0, y=0)
+            self, text="history", command=self.create_history_window
+        )
+        self.history_button.place(x=80, y=0)
 
         self.history_window_open = False
+
+
 
         self.exit_button = Button(self, text="exit", command=self.exit_tester)
         self.exit_button.place(x=445, y=0)
