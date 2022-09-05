@@ -31,7 +31,7 @@ class Window(Frame):
         self.pack(fill=BOTH, expand=1)
 
         self.settings_button = Button(
-            self, text="settings", command=None
+            self, text="settings", command=self.create_settings_window
         )
         self.settings_button.place(x=0, y=0)
 
@@ -41,8 +41,6 @@ class Window(Frame):
         self.history_button.place(x=80, y=0)
 
         self.history_window_open = False
-
-
 
         self.exit_button = Button(self, text="exit", command=self.exit_tester)
         self.exit_button.place(x=445, y=0)
@@ -229,6 +227,20 @@ class Window(Frame):
 
         self.con.commit()
 
+    def create_settings_window(self):
+        """creates the settings window"""
+        self.settings_window = Toplevel()
+        self.settings_window.geometry("250x375")
+
+        settings_label = Label(self.settings_window, text="Settings")
+        settings_label.place(x=85, y=5)
+
+        self.settings_exit_button = Button(self.settings_window,
+                                           text="exit",
+                                           command=self.exit_settings_window
+                                           )
+        self.settings_exit_button.place(x=195, y=0)
+
     def create_history_window(self):
         """creates the history window"""
         self.history_window_open = True
@@ -273,11 +285,11 @@ class Window(Frame):
         for index in range(0, 9):
             if runs[index] is not None:
                 self.run_label = Label(self.history_window, text=str(index+1) +
-                                           ": score: " +
-                                           str(runs[index][1]) +
-                                           ", cps: " + str(runs[index][2]) +
-                                           ", date and time: " + runs[index][3] +
-                                           " " + runs[index][4])
+                                       ": score: " +
+                                       str(runs[index][1]) +
+                                       ", cps: " + str(runs[index][2]) +
+                                       ", date and time: " + runs[index][3] +
+                                       " " + runs[index][4])
 
             else:
                 self.run_label = Label(
@@ -322,6 +334,9 @@ class Window(Frame):
         """close the score window"""
         self.score_window.destroy()
         self.clicking_button.configure(state="active")
+
+    def exit_settings_window(self):
+        self.settings_window.destroy()
 
     def exit_history_window(self):
         """close the score window"""
